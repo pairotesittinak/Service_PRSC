@@ -1,0 +1,20 @@
+doctype html
+html
+    head
+        title PersonViews
+    body
+table(border='1')
+    thead
+        tr
+            th Name
+            th age
+            th nationality
+    tbody
+        for item
+            tr
+                td= item.name
+                td= item.age
+                td= item.nationality
+                td
+                  a(href='/addperson') ADD
+                  a(href='/deleteperson') DELETE

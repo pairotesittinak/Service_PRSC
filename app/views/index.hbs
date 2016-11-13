@@ -1,0 +1,70 @@
+<h1>TEST ADD AND DELETE</h1>
+<section class="insert">
+    <h3>Insert Person</h3>
+    <form action="/insert" method="post">
+        <div class="input">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" class="form-control">
+        </div>
+        <div class="input">
+            <label for="age">Age</label>
+            <input type="text" id="age" name="age" class="form-control">
+        </div>
+        <div class="input">
+            <label for="nationality">Nationality</label>
+            <input type="text" id="nationality" name="nationality" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary active">INSERT</button>
+    </form>
+</section>
+
+<section class="get">
+    <h3>Get Data</h3>
+    <a href="/show">Show Person</a>
+    <div>
+        {{# each items }}
+            <article class="item">
+                <div>ID: {{ this._id }}</div>
+                <div>Name: {{ this.name }}</div>
+                <div>Age: {{ this.age }}</div>
+                <div>Nationality: {{ this.nationality }}</div>
+            </article>
+        {{/each}}
+    </div>
+</section>
+
+<section class="update">
+    <h3>Update Person</h3>
+    <form action="/update" method="post">
+        <div class="input">
+            <label for="id">ID</label>
+            <input type="text" id="id" name="id" class="form-control">
+        </div>
+        <div class="input">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" class="form-control">
+        </div>
+        <div class="input">
+            <label for="age">Age</label>
+            <input type="text" id="age" name="age" class="form-control">
+        </div>
+        <div class="input">
+            <label for="nationality">Nationality</label>
+            <input type="text" id="nationality" name="nationality" class="form-control">
+        </div>
+        <div>
+        <button type="submit" class="btn btn-primary active">UPDATE</button>
+        </div>
+    </form>
+</section>
+
+<section class="delete" >
+    <h3>Delete Person</h3>
+    <form action="/delete" method="post">
+        <div class="input">
+            <label for="id">ID</label>
+            <input type="text" id="id" name="id" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary active">DELETE</button>
+    </form>
+</section>
