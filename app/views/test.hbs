@@ -1,10 +1,45 @@
+<section class="get">
+    <h3>แสดงข่าวทั้งหมด</h3>
+    <a href="/show">Show Person</a>
+        {{# each items }}
+            <article class="item">
+                <div>ID: {{ this._id }}</div>
+                <div>title: {{ this.title }}</div>
+                <div>group_id: {{ this.group_id }}</div>
+                <div>author: {{ this.author }}</div>
+                <div>description: {{ this.description }}</div>
+            </article>
+           
+        {{/each}}
+</section>
+
+
+
+
+
+
+
+
 <h1>TEST ADD AND DELETE</h1>
 <section class="insert">
     <h3>Insert Person</h3>
-    <form action="/upload" method="post">
-         Select image to upload:
-    <input name="photo" id="fileupload" type="file" />
-
-     <button type="submit" class="btn btn-primary active">SUBMIT</button>
+    <form action="/insert" method="post">
+        <div class="input">
+            <label for="title">title</label>
+            <input type="text" id="title" name="title" class="form-control">
+        </div>
+        <div class="input">
+            <label for="group_id">group_id</label>
+            <input type="text" id="group_id" name="group_id" class="form-control">
+        </div>
+                <div class="input">
+            <label for="author">author</label>
+            <input type="text" id="author" name="author" class="form-control">
+        </div>
+                <div class="input">
+            <label for="description">descriptiony</label>
+            <input type="text" id="description" name="description" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary active">INSERT</button>
     </form>
 </section>

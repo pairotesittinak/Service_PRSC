@@ -11,8 +11,8 @@ var hbs = require('express-handlebars');
 var passport = require('passport');
 // var RedisStore = require('connect-redis')(session);
 var config = require('./config');
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
+// var multer  = require('multer')
+// var upload = multer({ dest: 'uploads/' })
 
 
 

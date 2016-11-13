@@ -1,7 +1,7 @@
 // var User = require('mongoose').model('user');
-// var Person = require('mongoose').model('person');
-var Images = require('mongoose').model('images');
-var multer  = require('multer')
+var News = require('mongoose').model('newss');
+// var Images = require('mongoose').model('images');
+// var multer  = require('multer')
 // var upload =  multer({
 //     dest    : './uploads/',
 //     onError : function(err, next) {
@@ -9,30 +9,30 @@ var multer  = require('multer')
 //       next(err);
 //     }
 //   });
-var storage =   multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, './uploads');
-  },
-  filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now());
-  }
-});
-var upload = multer({ storage : storage }).array('userPhoto',2);
+// var storage =   multer.diskStorage({
+//   destination: function (req, file, callback) {
+//     callback(null, './uploads');
+//   },
+//   filename: function (req, file, callback) {
+//     callback(null, file.fieldname + '-' + Date.now());
+//   }
+// });
+// var upload = multer({ storage : storage }).array('userPhoto',2);
 
-exports.home = function(req, res, next) {
-      res.render('test');
-};
+// exports.home = function(req, res, next) {
+//       res.render('test');
+// };
 
-exports.create = function(req, res) {        
- upload(req,res,function(err) {
-    console.log(req.body);
-    console.log(req.files);
-    if(err) {
-        return res.end("Error uploading file.");
-    }
-    res.end("File is uploaded");
-  }
-  )};
+// exports.create = function(req, res) {        
+//  upload(req,res,function(err) {
+//     console.log(req.body);
+//     console.log(req.files);
+//     if(err) {
+//         return res.end("Error uploading file.");
+//     }
+//     res.end("File is uploaded");
+//   }
+//   )};
 
 // exports.TestFormData = function(req, res,next){
 //     // res
@@ -73,37 +73,38 @@ exports.create = function(req, res) {
 
 // TEST INSERT SHOE DELETE UPDATE
 //     exports.home = function(req, res, next) {
-//       res.render('index');
+//       res.render('test');
 // };
 
 
-//     exports.insert = function(req, res, next) {
-//       var item = {
-//         name: req.body.name,
-//         age: req.body.age,
-//         nationality: req.body.nationality
-//       };
+    exports.insert = function(req, res, next) {
+      var item = {
+        title: req.body.title,
+        group_id: req.body.group_id,
+        author: req.body.author,
+        description: req.body.description
+      };
 
-//       var data = new Person(item);
-//       data.save();
+      var data = new News(item);
+      data.save();
 
-//       res.redirect('/');
-// };
+      res.redirect('/');
+};
     
 
 
-//     exports.showperson = function(req, res) {
-//     	Person.find({}, function(err, persons) {
-//     		if (err) {
-//     			return next(err);
-//     		} else {
-//     			res.json(persons);
-//     		}
-//     	});
-// };
+    exports.show = function(req, res, next) {
+    	News.find({}, function(err, response) {
+    		if (err) {
+    			return next(err);
+    		} else {
+    			res.render('test', {items: response});
+    		}
+    	});
+};
 
-//     exports.getPerson = function(req, res, next)  {
-//         Person.find({}, function(err, doc) {
+//     exports.show = function(req, res, next)  {
+//         News.find({}, function(err, doc) {
 //             if (err) {
 //                 return next(err);
 //             } else {

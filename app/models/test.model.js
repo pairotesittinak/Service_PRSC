@@ -2,11 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 //Add Model
-var personSchema = mongoose.Schema({
-    name: String,
-    age: Number,
-    nationality: String
+var newsSchema = mongoose.Schema({
+    title: String,
+    group_id: Number,
+  	date: Date,
+  	author: String,
+  	// News_ID:Schema.ObjectId,
+    description: String
 }, 
-{collection: 'person'}
+{collection: 'NewsDetail'}
 );
-mongoose.model("person", personSchema);
+mongoose.model('newss', newsSchema);

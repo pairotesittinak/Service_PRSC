@@ -2,7 +2,7 @@
 // var passport = require('passport');
 // TEST ADD AND DELETE
 var user = require('../controllers/test.controller');
-var multer  = require('multer');
+// var multer  = require('multer');
 
 // var upload =  multer({
 //     dest    : './uploads',
@@ -11,30 +11,36 @@ var multer  = require('multer');
 //       next(err);
 //     }
 //   });
-var storage =   multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, './uploads');
-  },
-  filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now());
-  }
-});
-var upload = multer({ storage : storage }).array('userPhoto',2);
+// var storage =   multer.diskStorage({
+//   destination: function (req, file, callback) {
+//     callback(null, './uploads');
+//   },
+//   filename: function (req, file, callback) {
+//     callback(null, file.fieldname + '-' + Date.now());
+//   }
+// });
+// var upload = multer({ storage : storage }).array('userPhoto',2);
 
-var express = require('express');
+// var express = require('express');
 
 module.exports = function (app) {
 ///////////////////////////////////////////////////////////////////////////////
   /////////////////
   // custom methods
   /////////////////
-	app.route('/')
-		.get(user.home);
-///////////////////////////////////////////////////////////////////////////////
+	// app.route('/')
+	// 	.get(user.home);
+// ///////////////////////////////////////////////////////////////////////////////
 
 
-	app.route('/upload', upload.any())
-		.post(user.create);
+// 	app.route('/upload', upload.any())
+// 		.post(user.create);
+
+     app.route('/insert')
+  // .get(user.renderPerson)
+  .post(user.insert);
+ app.route('/')
+  .get(user.show);
 
 };
 // module.exports = function(app) {
