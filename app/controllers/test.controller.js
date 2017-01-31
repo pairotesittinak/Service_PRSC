@@ -102,6 +102,26 @@ var News = require('mongoose').model('newss');
     		}
     	});
 };
+    exports.delete = function(req, res, next) {
+      var id = req.body.id;
+        News.findByIdAndRemove(id).exec();
+
+        res.redirect('/');
+};
+    
+    exports.showJson = function (req, res) {
+        News.find(function(err, News) {
+
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err)
+                res.send(err)
+
+            res.json(News); // return all reviews in JSON format
+        });
+        
+    }
+
+
 
 //     exports.show = function(req, res, next)  {
 //         News.find({}, function(err, doc) {

@@ -1,6 +1,6 @@
 <section class="get">
     <h3>แสดงข่าวทั้งหมด</h3>
-    <a href="/show">Show Person</a>
+    <a href="/">Show Person</a>
         {{# each items }}
             <article class="item">
                 <div>ID: {{ this._id }}</div>
@@ -14,13 +14,7 @@
 </section>
 
 
-
-
-
-
-
-
-<h1>TEST ADD AND DELETE</h1>
+<h1>TEST ADD </h1>
 <section class="insert">
     <h3>Insert Person</h3>
     <form action="/insert" method="post">
@@ -41,5 +35,16 @@
             <input type="text" id="description" name="description" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary active">INSERT</button>
+    </form>
+</section>
+
+<section class="delete" >
+    <h3>Delete Person</h3>
+    <form action="/delete" method="post">
+        <div class="input">
+            <label for="id">ID</label>
+            <input type="text" id="id" name="id" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary active">DELETE</button>
     </form>
 </section>

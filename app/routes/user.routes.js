@@ -36,11 +36,17 @@ module.exports = function (app) {
 // 	app.route('/upload', upload.any())
 // 		.post(user.create);
 
-     app.route('/insert')
+        app.route('/insert')
   // .get(user.renderPerson)
-  .post(user.insert);
- app.route('/')
-  .get(user.show);
+            .post(user.insert);
+        app.route('/')
+            .get(user.show);
+
+        app.route('/delete')
+            .post(user.delete);
+        app.route('/showJson')
+            .get(user.showJson)
+
 
 };
 // module.exports = function(app) {
