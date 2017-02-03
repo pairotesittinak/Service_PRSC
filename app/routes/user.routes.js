@@ -45,7 +45,10 @@ module.exports = function (app) {
         app.route('/delete')
             .post(user.delete);
         app.route('/showJson')
-            .get(user.showJson)
+            .get(user.showJson);
+        // app.route('/upload')
+        //     .post(user.uploadImage);
+
 
 
 };

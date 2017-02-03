@@ -75,14 +75,40 @@ var News = require('mongoose').model('newss');
 //     exports.home = function(req, res, next) {
 //       res.render('test');
 // };
+// var fs = require('fs');
+// // var mongoose = require('mongoose');
 
+//     exports.uploadImage = function(req,res){
+
+//      var dirname = require('path').dirname(__dirname);
+//      var filename = req.files.file.name;
+//      var path = req.files.file.path;
+//      var type = req.files.file.mimetype;
+      
+//      var read_stream =  fs.createReadStream(dirname + '/' + path);
+ 
+//      var conn = req.conn;
+//      var Grid = require('gridfs-stream');
+//      Grid.mongo = mongoose.mongo;
+ 
+//      var gfs = Grid(conn.db);
+      
+//      var writestream = gfs.createWriteStream({
+//         filename: filename
+//     });
+//      read_stream.pipe(writestream);
+        
+// };
 
     exports.insert = function(req, res, next) {
+        var  dateTime = new Date();
       var item = {
         title: req.body.title,
         group_id: req.body.group_id,
         author: req.body.author,
-        description: req.body.description
+        description: req.body.description,
+      // var  date = new Date();
+        date: dateTime
       };
 
       var data = new News(item);
@@ -110,14 +136,15 @@ var News = require('mongoose').model('newss');
 };
     
     exports.showJson = function (req, res) {
-        News.find(function(err, News) {
+        News.find({group_id: 1}, null, {sort: {date: -1}},
+            function(err, News) {
 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err)
-
             res.json(News); // return all reviews in JSON format
         });
+        // .sort({date: -1});
         
     }
 
