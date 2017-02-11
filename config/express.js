@@ -3,7 +3,7 @@ var morgan = require('morgan');
 var compression = require('compression');
 var bodyParser = require('body-Parser');
 var hbs = require('express-handlebars');
-
+var busboyBodyParser = require('busboy-body-parser');
 // var validator = require('express-validator');
 // var cookieSession = require('cookie-session');
 // var session = require('express-session');
@@ -25,37 +25,13 @@ module.exports = function() {
 		app.use(compression);
 	}
 
-	// app.use(cookieSession({
-	// 	name: 'session',
-	// 	keys: ['cxzc134rrwfvsc', 'dqdt3fevsc123']
-	// }));
-	// app.use(session({
-	// 	// inherritan file config
-	// 	secret: config.sessionSecret,
-	// 	resave: false,
-	// 	saveUninitialized: true
-	// }));
-	// app.use(flash());
-	// //start passport
-	// app.use(passport.initialize());
-	// app.use(passport.session());
-
-	// app.use(session({
-	// 	store: new RedisStore({
-	// 		host: 'localhost',
-	// 		port: 6379,
-	// 		db: 'my_project',
-	// 		pass: '123456'
-	// 	});
-	// 	secret: 'sdqegr2qd123'
-	// }));
 
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
 	app.use(bodyParser.json());
 	// app.use(validator());
-
+	app.use(busboyBodyParser());
 // // view engine setup
 // app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/app/views/layouts/'}));
 // app.set('views', path.join(__dirname, 'views'));

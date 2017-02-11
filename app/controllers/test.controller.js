@@ -1,104 +1,87 @@
 // var User = require('mongoose').model('user');
 var News = require('mongoose').model('newss');
-// var Images = require('mongoose').model('images');
-// var multer  = require('multer')
-// var upload =  multer({
-//     dest    : './uploads/',
-//     onError : function(err, next) {
-//       console.log('error', err);
-//       next(err);
-//     }
-//   });
-// var storage =   multer.diskStorage({
-//   destination: function (req, file, callback) {
-//     callback(null, './uploads');
-//   },
-//   filename: function (req, file, callback) {
-//     callback(null, file.fieldname + '-' + Date.now());
-//   }
-// });
-// var upload = multer({ storage : storage }).array('userPhoto',2);
-
-// exports.home = function(req, res, next) {
-//       res.render('test');
-// };
-
-// exports.create = function(req, res) {        
-//  upload(req,res,function(err) {
-//     console.log(req.body);
-//     console.log(req.files);
-//     if(err) {
-//         return res.end("Error uploading file.");
-//     }
-//     res.end("File is uploaded");
-//   }
-//   )};
-
-// exports.TestFormData = function(req, res,next){
-//     // res
-//     console.log('reaching here');
-//   console.log(req.body);
-//   console.log(req.file);
-//   // console.log(file);
-//   // console.log(path);
-//   res.json({success: true});
-// };
-
-// exports.renderPerson = function(req, res) {
-// 	res.render('index');
-// };
-
-// exports.addPerson = function(req, res) {
-// 	var personInfo = req.body; 
-// 	 if(!personInfo.name || !personInfo.age || !personInfo.nationality){
-//         res.render('show_message_person', {message: "Sorry, you provided worng info", type: "error"});
-//     }
-//     else{
-//         var newPerson = new Person({
-//            name: personInfo.name,
-//             age: personInfo.age,
-//             nationality: personInfo.nationality
-//         });
-//         newPerson.save(function(err, docs){
-//             if(err)
-//                 res.render('show_message_person', {message: "Database error", type: "error"});
-//             else
-//                 res.render('show_message_person', {message: "New person added", type: "success", person: personInfo});
-            
-//         });
-//     }
-// };
+ var Filess = require('mongoose').model('File');
 
 
-
-// TEST INSERT SHOE DELETE UPDATE
-//     exports.home = function(req, res, next) {
-//       res.render('test');
-// };
-// var fs = require('fs');
-// // var mongoose = require('mongoose');
-
-//     exports.uploadImage = function(req,res){
-
-//      var dirname = require('path').dirname(__dirname);
-//      var filename = req.files.file.name;
-//      var path = req.files.file.path;
-//      var type = req.files.file.mimetype;
-      
-//      var read_stream =  fs.createReadStream(dirname + '/' + path);
+var fs = require('fs');
+var mongoose = require('mongoose'),
+    _ = require('lodash');
  
-//      var conn = req.conn;
-//      var Grid = require('gridfs-stream');
-//      Grid.mongo = mongoose.mongo;
+var Grid = require('gridfs-stream');
+Grid.mongo = mongoose.mongo;
+var gfs = new Grid(mongoose.connection.db);
  
-//      var gfs = Grid(conn.db);
+exports.create = function(req, res) {
+         var  dateTime = new Date();
+      var item = {
+        title: req.body.title,
+        group_id: req.body.group_id,
+        author: req.body.author,
+        description: req.body.description,
+      // var  date = new Date();
+        date: dateTime
+      };
+
+      var data = new News(item);
+      data.save();
+
+
+        var part = req.files.filefield;
+ 
+                var writeStream = gfs.createWriteStream({
+                    filename: part.name,
+            mode: 'w',
+                    content_type:part.mimetype
+                });
+ 
+ 
+                writeStream.on('close', function() {
+                     return res.status(200).send({
+            message: 'Success'
+          });
+                });
+                
+                writeStream.write(part.data);
+ 
+                writeStream.end();
+ 
+};
+exports.read = function(req, res) {
+ 
+  gfs.files.find({ filename: req.params.filename }).toArray(function (err, files) {
+ 
+      if(files.length===0){
+      return res.status(400).send({
+        message: 'File not found'
+      });
+      }
+  
+    res.writeHead(200, {'Content-Type': files[0].contentType});
+    
+    var readstream = gfs.createReadStream({
+        filename: files[0].filename
+    });
+ 
+      readstream.on('data', function(data) {
+          res.write(data);
+      });
       
-//      var writestream = gfs.createWriteStream({
-//         filename: filename
-//     });
-//      read_stream.pipe(writestream);
-        
-// };
+      readstream.on('end', function() {
+          res.end();        
+      });
+ 
+    readstream.on('error', function (err) {
+      console.log('An error occurred!', err);
+      throw err;
+    });
+  });
+ 
+};
+
+
+
+
+
 
     exports.insert = function(req, res, next) {
         var  dateTime = new Date();
@@ -136,54 +119,21 @@ var News = require('mongoose').model('newss');
 };
     
     exports.showJson = function (req, res) {
-        News.find({group_id: 1}, null, {sort: {date: -1}},
-            function(err, News) {
 
-            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err)
-                res.send(err)
-            res.json(News); // return all reviews in JSON format
-        });
-        // .sort({date: -1});
-        
+      Filess.find().sort({date: -1}).exec(function(err, Filess) {
+    if(err)
+        res.send(err);
+    res.json(Filess);
+});
+
+//        News.find().populate({
+//   path: 'image',
+//   model: 'File'
+// }).sort({date: -1}).limit(2).exec(function(err, News) {
+//     if(err)
+//         res.send(err);
+//     res.json(News);
+// });
+
     }
 
-
-
-//     exports.show = function(req, res, next)  {
-//         News.find({}, function(err, doc) {
-//             if (err) {
-//                 return next(err);
-//             } else {
-//                 res.render('index', {items: doc});
-//             }
-//         });
-
-// };
-
-//     exports.deletePerson = function(req, res, next) {
-//       var id = req.body.id;
-//         Person.findByIdAndRemove(id).exec();
-//         res.redirect('/');
-// };
-
-
-//      exports.updatePerson = function(req, res, next) {
-//       var id = req.body.id;
-
-//       Person.findById(id, function(err, doc) {
-//         if (err) {
-//           // console.error('error, no entry found');
-//           // return next(err);
-//           return console.error('Update Error, no entry found');
-//          // return  res.render('index', {message: "error"});
-//         }
-//         doc.name = req.body.name;
-//         doc.age = req.body.age;
-//         doc.nationality = req.body.nationality;
-//         doc.save();
-//       })
-//       res.redirect('/');
-//       // res.render('index', {message: "Update Success"});
-//       console.error('Update Success');
-// };

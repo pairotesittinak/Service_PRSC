@@ -18,7 +18,7 @@
     "googleapis": "^16.1.0",
     "gridfs-stream": "^1.1.1",
     "jade": "~1.11.0",
-    "mongoose": "~3.8.0",
+    "mongoose": "~4.8.1",
     "morgan": "~1.6.0",
     "multer": "^1.3.0",
     "node-sass-middleware": "~0.9.0",
