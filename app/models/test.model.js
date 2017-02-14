@@ -15,10 +15,11 @@ var newsSchema = mongoose.Schema({
   		default: Date.now() 
   	},
   	author: String,
-  	UserAut: [{
-  		type: Schema.Types.ObjectId, 
-  		ref: 'Users' 
-  	}],
+  	image: {type: Schema.Types.Object, ref: 'File' },
+  	// UserAut: [{
+  	// 	type: Schema.Types.ObjectId, 
+  	// 	ref: 'Users' 
+  	// }],
   	// News_ID:Schema.ObjectId,
     description: String
 }, 

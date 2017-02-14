@@ -32,14 +32,18 @@ var item = {
 data.save(function (err) {
   if (err) return handleError(err);
   
-  var User1 = new User({
-    username: req.body.username,
-    password: req.body.password,
-     image: data.urlImage
+  var News1 = new News({
+        title: req.body.title,
+        group_id: req.body.group_id,
+        author: req.body.author,
+        description: req.body.description,
+      // var  date = new Date();
+        // date: dateTime,
+        image: data.urlImage
 
   });
   
-  User1.save(function (err) {
+  News1.save(function (err) {
     if (err) return handleError(err);
     // thats it!
   });
@@ -166,9 +170,10 @@ exports.read = function(req, res) {
 // });
 
 //////////////////TEST USER//////////////////
-User
+News
 .find()
 .populate('File')
+.sort({date: -1})
 .exec(function (err, users) {
   if (err) return handleError(err);
   console.log('The creator is %s', users);
