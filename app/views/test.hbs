@@ -34,6 +34,14 @@
             <label for="description">descriptiony</label>
             <input type="text" id="description" name="description" class="form-control">
         </div>
+                        <div class="input">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" class="form-control">
+        </div>
+                <div class="input">
+            <label for="password">password</label>
+            <input type="text" id="password" name="password" class="form-control">
+        </div>
         <button type="submit" class="btn btn-primary active">INSERT</button>
     </form>
 </section>
@@ -53,7 +61,7 @@
 <form action="/upload" method="post" enctype="multipart/form-data">
 <h3>Insert Image</h3>
     <form action="/insert" method="post">
-        <div class="input">
+ {{!--        <div class="input">
             <label for="title">title</label>
             <input type="text" id="title" name="title" class="form-control">
         </div>
@@ -68,6 +76,18 @@
                 <div class="input">
             <label for="description">descriptiony</label>
             <input type="text" id="description" name="description" class="form-control">
+        </div>
+                <div class="input">
+            <label for="group_id">group_id</label>
+            <input type="text" id="group_id" name="group_id" class="form-control">
+        </div> --}}
+                        <div class="input">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" class="form-control">
+        </div>
+                <div class="input">
+            <label for="password">password</label>
+            <input type="text" id="password" name="password" class="form-control">
         </div>
  <input type="file" name="filefield">
  <button type="submit" class="btn btn-primary active">BUTTON</button>

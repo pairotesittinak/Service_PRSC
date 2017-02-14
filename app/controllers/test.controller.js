@@ -1,7 +1,7 @@
 // var User = require('mongoose').model('user');
 var News = require('mongoose').model('newss');
- var Filess = require('mongoose').model('File');
-
+var Filess = require('mongoose').model('File');
+var User = require('mongoose').model('Users');
 
 var fs = require('fs');
 var mongoose = require('mongoose'),
@@ -12,33 +12,58 @@ Grid.mongo = mongoose.mongo;
 var gfs = new Grid(mongoose.connection.db);
  
 exports.create = function(req, res) {
-         var  dateTime = new Date();
-      var item = {
-        title: req.body.title,
-        group_id: req.body.group_id,
-        author: req.body.author,
-        description: req.body.description,
-      // var  date = new Date();
-        date: dateTime
-      };
+      // var  dateTime = new Date();
+      // var item = {
+      //   title: req.body.title,
+      //   group_id: req.body.group_id,
+      //   author: req.body.author,
+      //   description: req.body.description,
+      // // var  date = new Date();
+      //   date: dateTime
+      // };
+var part = req.files.filefield;
 
-      var data = new News(item);
-      data.save();
+var item = {
+  urlImage: "http://"+"localhost:3000/upload/" + part.name
+};
+      var data = new Filess(item);
+      // data.save();
+///////////////////SAVE///////////////////////////////
+data.save(function (err) {
+  if (err) return handleError(err);
+  
+  var User1 = new User({
+    username: req.body.username,
+    password: req.body.password,
+     image: data.urlImage
 
-
-        var part = req.files.filefield;
+  });
+  
+  User1.save(function (err) {
+    if (err) return handleError(err);
+    // thats it!
+  });
+});
+//////////////////////////////////////////////////////
+        
  
                 var writeStream = gfs.createWriteStream({
                     filename: part.name,
-            mode: 'w',
-                    content_type:part.mimetype
+                    mode: 'w',
+                    content_type:part.mimetype,
+                    metadata: {
+                    // URL: "http//localhost:3000/" + filename,
+                    name: data.title
+                      }
                 });
  
  
                 writeStream.on('close', function() {
-                     return res.status(200).send({
-            message: 'Success'
-          });
+                     return res.redirect('/');
+                     // res.status(200).send({
+            // message: 'Success'
+
+          // });
                 });
                 
                 writeStream.write(part.data);
@@ -95,7 +120,21 @@ exports.read = function(req, res) {
       };
 
       var data = new News(item);
-      data.save();
+      data.save(function (err) {
+  if (err) return handleError(err);
+  
+  var User1 = new User({
+    username: req.body.username,
+    password: req.body.password,
+     _creator: data.title
+
+  });
+  
+  User1.save(function (err) {
+    if (err) return handleError(err);
+    // thats it!
+  });
+});
 
       res.redirect('/');
 };
@@ -120,11 +159,35 @@ exports.read = function(req, res) {
     
     exports.showJson = function (req, res) {
 
-      Filess.find().sort({date: -1}).exec(function(err, Filess) {
-    if(err)
-        res.send(err);
-    res.json(Filess);
+//       User.find().populate('_creator').sort({date: -1}).exec(function(err, User) {
+//     if(err)
+//         res.send(err);
+//     res.json(User);
+// });
+
+//////////////////TEST USER//////////////////
+User
+.find()
+.populate('File')
+.exec(function (err, users) {
+  if (err) return handleError(err);
+  console.log('The creator is %s', users);
+  // prints "The creator is Aaron"
+  res.json(users);
 });
+
+////////////////TEST NEWS//////////////////////
+// News
+// .find()
+// .populate('UserAut')
+// .exec(function (err, News) {
+//   if (err) return handleError(err);
+//   console.log('The creator is %s', News);
+//   // prints "The creator is Aaron"
+//   res.json(News);
+// });
+
+//////////////////////////////////////////////
 
 //        News.find().populate({
 //   path: 'image',
@@ -135,5 +198,5 @@ exports.read = function(req, res) {
 //     res.json(News);
 // });
 
-    }
+    };
 
